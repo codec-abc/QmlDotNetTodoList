@@ -11,88 +11,6 @@ ApplicationWindow {
     height: 480
     title: qsTr("Todo List")
 
-    ListModel {
-        id: fruitModel
-
-        ListElement {
-            name: "HI"
-            cost: 2.45
-        }
-        ListElement {
-            name: "there"
-            cost: 3.25
-        }
-        ListElement {
-            name: "Banana"
-            cost: 1.95
-        }
-        ListElement {
-            name: "Apple"
-            cost: 2.45
-        }
-        ListElement {
-            name: "Orange"
-            cost: 3.25
-        }
-        ListElement {
-            name: "Banana"
-            cost: 1.95
-        }
-        ListElement {
-            name: "Apple"
-            cost: 2.45
-        }
-        ListElement {
-            name: "Orange"
-            cost: 3.25
-        }
-        ListElement {
-            name: "Banana"
-            cost: 1.95
-        }
-        ListElement {
-            name: "Orange"
-            cost: 3.25
-        }
-        ListElement {
-            name: "Banana"
-            cost: 1.95
-        }
-        ListElement {
-            name: "Apple"
-            cost: 2.45
-        }
-        ListElement {
-            name: "Orange"
-            cost: 3.25
-        }
-        ListElement {
-            name: "Banana"
-            cost: 1.95
-        }
-        ListElement {
-            name: "Orange"
-            cost: 3.25
-        }
-        ListElement {
-            name: "Banana"
-            cost: 1.95
-        }
-        ListElement {
-            name: "Apple"
-            cost: 2.45
-        }
-        ListElement {
-            name: "Orange"
-            cost: 3.25
-        }
-        ListElement {
-            name: "Banana"
-            cost: 1.95
-        }
-
-    }
-
     //<C#> QmlNetBridge {
     //<C#>    id : qmlBridge
     //<C#> }
@@ -125,6 +43,17 @@ ApplicationWindow {
             }
         }
 
+        Row {
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            spacing: 0
+            Text {
+                text: qsTr("Current of number of todo items: ")
+            }
+            Text {
+                text: qmlBridge.count
+            }
+        }
+
         ListView {
             id: listView
             spacing: 6
@@ -133,43 +62,43 @@ ApplicationWindow {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model:fruitModel
-
+            model: Net.toListModel(qmlBridge.todoItems)
             delegate: Row {
                 id: row
                 spacing: 5
-                //height: 100
                 anchors.right: parent.right
                 anchors.left: parent.left
-//                Rectangle {
-//                    color: "#e61515"
-//                    anchors.fill: parent
-//                    anchors.horizontalCenter: parent.horizontalCenter
-//                    anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
+                anchors.rightMargin: 10
                     Button {
                         width: 40
                         height: 40
-                        text: qsTr("Add")
+                        text: if (modelData.isDone) {
+                                  return "✔";
+                              } else {
+                                  return "✘";
+                              }
+
                         id : buttonTodo
                     }
-                    Text {
-                        color: "#1486f9"
-                        text: name
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.bold: true
 
+                    Text {
+                        color: if (modelData.isDone) {
+                                   return "#666666";
+                               } else {
+                                   return "#000000";
+                               }
+                        text: modelData.name
+                        anchors.verticalCenter: parent.verticalCenter
+                        font.bold: !modelData.isDone
                     }
-                //}
             }
             ScrollBar.vertical: ScrollBar {
                 id: bar
-                //x :100 doesn't work
                 active: true
                 policy: "AsNeeded"
                 interactive: true
-              }
+            }
         }
-
     }
-
 }
