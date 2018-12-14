@@ -40,11 +40,11 @@ ApplicationWindow {
                 text: qsTr("Add")
                 Layout.fillWidth: false
                 onClicked: function() {
-					var rowCount = listView.model.rowCount();
-					qmlBridge.addTodo(textField.text);
-					listView.model.rowsInserted(null, rowCount, rowCount);
-					var index = listView.model.index(0, 0);
-				}
+                    var rowCount = qmlBridge.todoCount();
+                    qmlBridge.addTodo(textField.text);
+                    listView.model.rowsInserted(null, rowCount, rowCount);
+                    textField.text = "";
+                }
             }
         }
 
@@ -53,6 +53,7 @@ ApplicationWindow {
             spacing: 0
             Text {
                 text: qsTr("Current of number of todo items: ")
+                style: Text.Normal
             }
             Text {
                 text: qmlBridge.count
@@ -86,7 +87,7 @@ ApplicationWindow {
                         id : buttonTodo
                         onClicked: function() {
                             var rowIndex = qmlBridge.handleClick(modelData);
-							var index = listView.model.index(rowIndex, 0);
+                            var index = listView.model.index(rowIndex, 0);
                             listView.model.dataChanged(index, index);
                         }
                     }
@@ -100,6 +101,7 @@ ApplicationWindow {
                         text: modelData.name
                         anchors.verticalCenter: parent.verticalCenter
                         font.bold: !modelData.isDone
+                        font.strikeout: modelData.isDone
                     }
             }
             ScrollBar.vertical: ScrollBar {

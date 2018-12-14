@@ -16,12 +16,15 @@ class QmlNetBridge
 
     }
 
-    public void AddTodo(string text)
+    public int todoCount()
+    {
+        return _todoItems.Count;
+    }
+
+    public void addTodo(string text)
     {
         _todoItems.Add(new TodoItemViewModel(text, isDone: false));
         count = _todoItems.Count;
-        
-        //this.ActivateSignal(nameof(todoItems) + "prop");
     }
 
     public TodoItemViewModel createTodo(string text)
