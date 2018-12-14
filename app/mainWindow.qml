@@ -39,7 +39,12 @@ ApplicationWindow {
                 enabled: textField.text != ""
                 text: qsTr("Add")
                 Layout.fillWidth: false
-                onClicked: qmlBridge.addTodo(textField.text)
+                onClicked: function() {
+					var rowCount = listView.model.rowCount();
+					qmlBridge.addTodo(textField.text);
+					listView.model.rowsInserted(null, rowCount, rowCount);
+					var index = listView.model.index(0, 0);
+				}
             }
         }
 
@@ -78,8 +83,12 @@ ApplicationWindow {
                               } else {
                                   return "✘";
                               }
-
                         id : buttonTodo
+                        onClicked: function() {
+                            var rowIndex = qmlBridge.handleClick(modelData);
+							var index = listView.model.index(rowIndex, 0);
+                            listView.model.dataChanged(index, index);
+                        }
                     }
 
                     Text {

@@ -10,6 +10,7 @@ class QmlNetBridge
 
     private int _count = 0;
 
+
     public QmlNetBridge()
     {
 
@@ -17,10 +18,29 @@ class QmlNetBridge
 
     public void AddTodo(string text)
     {
-        _todoItems.Add(new TodoItemViewModel(text, _count % 2 == 0 ));
+        _todoItems.Add(new TodoItemViewModel(text, isDone: false));
         count = _todoItems.Count;
         
-        this.ActivateSignal(nameof(todoItems) + "prop");
+        //this.ActivateSignal(nameof(todoItems) + "prop");
+    }
+
+    public TodoItemViewModel createTodo(string text)
+    {
+        return new TodoItemViewModel(text, isDone: false);
+    }
+
+    public int handleClick(TodoItemViewModel item)
+    {
+        item.Toggle();
+
+        for(int i = 0; i <_todoItems.Count; i++)
+        {
+            if (_todoItems[i] == item)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
     
     [NotifySignal(nameof(todoItems) + "prop")]
@@ -50,6 +70,8 @@ class QmlNetBridge
             this.ActivateSignal(nameof(count) + "prop");
         }
     }
+
+   
 }
 
 public class TodoItemViewModel
@@ -89,6 +111,11 @@ public class TodoItemViewModel
     {
         this.name = name;
         this.isDone = isDone;
+    }
+
+    internal void Toggle()
+    {
+        this.isDone = !this.isDone;
     }
 }
 
