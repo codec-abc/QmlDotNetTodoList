@@ -6,14 +6,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\mainWindow.qml" Link="mainWindow.qml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Remove="mainWindow.qml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="mainWindow.qml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Qml.Net" Version="0.6.2" />
     <PackageReference Include="Qml.Net.WindowsBinaries" Version="0.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Program.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 
 </Project>
