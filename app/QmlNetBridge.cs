@@ -73,8 +73,6 @@ class QmlNetBridge
             this.ActivateSignal(nameof(count) + "prop");
         }
     }
-
-   
 }
 
 public class TodoItemViewModel

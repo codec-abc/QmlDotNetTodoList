@@ -15,6 +15,46 @@ ApplicationWindow {
     //<C#>    id : qmlBridge
     //<C#> }
 
+    ListModel {
+        id:fakeListModel
+        ListElement {
+            name: "Bill Smith"
+            isDone: false
+        }
+        ListElement {
+            name: "Bill Smith"
+            isDone: false
+        }
+        ListElement {
+            name: "Bill Smith"
+            isDone: true
+        }
+        ListElement {
+            name: "Bill Smith"
+            isDone: false
+        }
+        ListElement {
+            name: "Bill Smith"
+            isDone: false
+        }
+        ListElement {
+            name: "Bill Smith"
+            isDone: true
+        }
+        ListElement {
+            name: "Bill Smith"
+            isDone: false
+        }
+        ListElement {
+            name: "Bill Smith"
+            isDone: false
+        }
+        ListElement {
+            name: "Bill Smith"
+            isDone: false
+        }
+    }
+
     GridLayout
     {
         anchors.topMargin: 5
@@ -62,23 +102,34 @@ ApplicationWindow {
 
         ListView {
             id: listView
-            spacing: 6
+            spacing: 3
             snapMode: ListView.SnapToItem
             boundsBehavior: Flickable.StopAtBounds
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillWidth: true
             Layout.fillHeight: true
+
             model: Net.toListModel(qmlBridge.todoItems)
-            delegate: Row {
-                id: row
-                spacing: 5
-                anchors.right: parent.right
+            delegate:
+                Rectangle {
+                id: rectangle
                 anchors.left: parent.left
-                anchors.leftMargin: 10
-                anchors.rightMargin: 10
+                anchors.leftMargin: 0
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                height: 45
+                radius: 4
+                border.width: 2
+                Row {
+                    id: row
+                    anchors.left: parent.left
+                    anchors.leftMargin: 5
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 5
                     Button {
                         width: 40
                         height: 40
+                        anchors.verticalCenter: parent.verticalCenter
                         text: if (modelData.isDone) {
                                   return "✔";
                               } else {
@@ -93,16 +144,17 @@ ApplicationWindow {
                     }
 
                     Text {
+                        anchors.verticalCenter: parent.verticalCenter
                         color: if (modelData.isDone) {
                                    return "#666666";
                                } else {
                                    return "#000000";
                                }
                         text: modelData.name
-                        anchors.verticalCenter: parent.verticalCenter
                         font.bold: !modelData.isDone
                         font.strikeout: modelData.isDone
                     }
+                }
             }
             ScrollBar.vertical: ScrollBar {
                 id: bar

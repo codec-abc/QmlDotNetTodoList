@@ -15,7 +15,6 @@ namespace app
                     var content = System.IO.File.ReadAllText(@"mainWindow.qml");
                     content = "import app 1.0\n" + content; 
                     content = content.Replace(@"//<C#>", @"");
-                    //Console.WriteLine(content);
                     engine.LoadData(content);
                     return app.Exec();
                 }
